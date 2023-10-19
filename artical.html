@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章</title>
+    <link rel="icon" href="logo/ictaicon.ico" >
+    <style>
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          max-width: 300px;
+          margin: auto;
+          text-align: center;
+          font-family: arial;
+          display: inline-block;
+        }
+        
+        .title {
+          color: grey;
+          font-size: 18px;
+        }
+        
+        button {
+          border: none;
+          outline: 0;
+          display: inline-block;
+          padding: 8px;
+          color: white;
+          background-color: #000;
+          text-align: center;
+          cursor: pointer;
+          width: 100%;
+          font-size: 18px;
+        }
+        
+        a {
+          text-decoration: none;
+          font-size: 22px;
+          color: black;
+        }
+        
+        button:hover, a:hover {
+          opacity: 0.7;
+        }
+        </style>
+        <script>
+            function bjxb(){
+                window.open("https://www.zhihu.com/people/bjxb-12/posts")
+            }
+            function sanjue(){
+                window.open("https://www.zhihu.com/people/san-jue-jue-ga-ga-ga-ga/posts")
+            }
+        </script>
+</head>
+<body>
+    <div class="card">
+        <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.aJ-feMIbJgpznkdg105oDQHaHa?pid=ImgDet&rs=1" alt="" style="width:240px;height: 240px;">
+        <h1>HonmaKohaku</h1>
+        <p class="title">ICTA & 会长</p>
+        <p>厦门大学</p>
+        <div style="margin: 24px 0;">
+        </div>
+        <p><button onclick="bjxb()">检索文章</button></p>
+      </div>
+      <div class="card">
+        <img src="https://c-ssl.dtstatic.com/uploads/blog/202206/22/20220622155835_fc001.thumb.400_0.jpg" alt="" style="width:240px;height: 240px;">
+        <h1>3Legends</h1>
+        <p class="title">ICTA & 信息部门部长</p>
+        <p>常州大学</p>
+        <div style="margin: 24px 0;">
+        </div>
+        <p><button onclick="sanjue()">检索文章</button></p>
+      </div>
+
+    
+</body>
+</html>
