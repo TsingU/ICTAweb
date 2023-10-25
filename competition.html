@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞赛</title>
+    <link rel="icon" href="logo/ictaicon.ico" >
+    <!-- 幻灯片 -->
+    <style>
+        * {box-sizing: border-box;}
+        body {font-family: Verdana, sans-serif;}
+        .mySlides {display: none;}
+        img {vertical-align: middle;}
+        
+        /* 幻灯片容器 */
+        .slideshow-container {
+          max-width: 1000px;
+          position: relative;
+          margin: auto;
+        }
+        
+        /* 标题文本 */
+        .text {
+          color: #f2f2f2;
+          font-size: 15px;
+          padding: 8px 12px;
+          position: absolute;
+          bottom: 8px;
+          width: 100%;
+          text-align: center;
+        }
+        
+        /* 数字文本（1/3 等）*/
+        .numbertext {
+          color: #f2f2f2;
+          font-size: 12px;
+          padding: 8px 12px;
+          position: absolute;
+          top: 0;
+        }
+        
+        /* 点/项目符号/指标 */
+        .dot {
+          height: 15px;
+          width: 15px;
+          margin: 0 2px;
+          background-color: #bbb;
+          border-radius: 50%;
+          display: inline-block;
+          transition: background-color 0.6s ease;
+        }
+        
+        .active {
+          background-color: #717171;
+        }
+        
+        /* 渐变动画 */
+        .fade {
+          -webkit-animation-name: fade;
+          -webkit-animation-duration: 1.5s;
+          animation-name: fade;
+          animation-duration: 1.5s;
+        }
+        
+        @-webkit-keyframes fade {
+          from {opacity: .4} 
+          to {opacity: 1}
+        }
+        
+        @keyframes fade {
+          from {opacity: .4} 
+          to {opacity: 1}
+        }
+        
+        /* 在较小的屏幕上，减小文本大小 */
+        @media only screen and (max-width: 300px) {
+          .text {font-size: 11px}
+        }
+        </style>
+        <!-- 扩展网格 -->
+        <style>
+            * {
+              box-sizing: border-box;
+            }
+            
+            body {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+            }
+            
+            /* 网格：三个相等的列并排浮动 */
+            .column {
+              float: left;
+              width: 33.33%;
+              padding: 50px;
+              text-align: center;
+              font-size: 18px;
+              cursor: pointer;
+              color: white;
+            }
+            
+            .containerTab {
+              padding: 20px;
+              color: white;
+            }
+            
+            /* 清除列后的浮点数 */
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            
+            /* 容器选项卡内的可关闭按钮 */
+            .closebtn {
+              float: right;
+              color: white;
+              font-size: 35px;
+              cursor: pointer;
+            }
+            </style>
+      <!-- 技能栏 -->
+      <style>
+        * {box-sizing: border-box}
+        
+        .container {
+          width: 100%;
+          background-color: #ddd;
+        }
+        
+        .skills {
+          text-align: right;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          color: white;
+        }
+        
+        .html {width: 100%; background-color: #4CAF50;}
+        .css {width: 60%; background-color: #2196F3;}
+        .js {width: 85%; background-color: #f44336;}
+        .php {width: 85%; background-color: #808080;}
+        </style>
+      <!-- 个人卡片 -->
+      <style>
+        
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+          transition: 0.3s;
+          width: 240px;
+          height: 350px;
+          display: inline-block;
+        }
+        
+        .card:hover {
+          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+        
+        .container {
+          padding: 2px 16px;
+        }
+        </style>
+</head>
+<body>
+  <p style="text-align: center;"><img src="logo/ICTALG.png" alt=""></p>
+    <div class="slideshow-container">
+
+        <div class="mySlides fade">
+          <div class="numbertext">1 / 3</div>
+          <img src="http://www.m2ct.org/attachment/2016/T_M_SXJM_HDDT/0B00280/image/news/szb2023-01.jpg" style="width:70%;">
+          <div class="text">深圳杯数学建模挑战赛</div>
+        </div>
+        
+        <div class="mySlides fade">
+          <div class="numbertext">2 / 3</div>
+          <img src="https://publicqn.saikr.com/2023/09/06/contest64f83ff4eda342.562620241693990916619.png?imageView2/2/w/2160" style="width:100%">
+          <div class="text">MathorCup数学建模挑战赛--大数据竞赛</div>
+        </div>
+        
+        <div class="mySlides fade">
+          <div class="numbertext">3 / 3</div>
+          <img src="https://publicqn.saikr.com/2023/10/24/contest65377f54403670.831128131698135902847.png?imageView2/2/w/2160" style="width:100%">
+          <div class="text">五岳杯量子计算挑战赛</div>
+        </div>
+        
+        </div>
+        <br>
+        
+        <div style="text-align:center">
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+          <span class="dot"></span> 
+        </div>
+        
+         <script>
+        var slideIndex = 0;
+        showSlides();
+        
+        function showSlides() {
+          var i;
+          var slides = document.getElementsByClassName("mySlides");
+          var dots = document.getElementsByClassName("dot");
+          for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+          }
+          slideIndex++;
+          if (slideIndex > slides.length) {slideIndex = 1}    
+           for (i = 0; i < dots.length; i++) { 
+            dots[i].className = dots[i].className.replace(" active", "");
+          }
+          slides[slideIndex-1].style.display = "block";  
+          dots[slideIndex-1].className += " active";
+          setTimeout(showSlides, 5000); // 每 5 秒更改一次图像
+        }
+        </script> 
+        <!-- Three columns -->
+<div class="row">
+    <div class="column" onclick="openTab('b1');" style="background:rgb(110, 231, 110);">
+        深圳杯数学建模挑战赛
+    </div>
+    <div class="column" onclick="openTab('b2');" style="background:rgb(95, 95, 227);">
+        MathorCup数学建模挑战赛--大数据竞赛
+    </div>
+    <div class="column" onclick="openTab('b3');" style="background:rgb(228, 94, 94);">
+        五岳杯量子计算挑战赛
+    </div>
+  </div>
+  
+  <!-- Full-width columns: (hidden by default) -->
+  <div id="b1" class="containerTab" style="display:none;background:rgb(97, 223, 97)">
+    <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+    <h2>深圳杯数学建模挑战赛</h2>
+    <p>“深圳杯”数学建模挑战赛（原名为：全国大学生数学建模夏令营）是全国大学生数学建模竞赛活动的延伸，由全国大学生数学建模竞赛组委会组织。</p>
+    <p>被誉为“智力大运会”的数学建模挑战赛，每年都有来自全国近300名的优秀学子来深参加。从深圳市科协6年前提出举办大赛，到如今已成功举办6届，改了几次名字，2016年“夏令营”改名“挑战赛”，更突出实用性和专业性，但始终保留“深圳杯”，目的是为深圳打造品牌。从2013年起，这个原名为“深圳杯”全国大学生数学建模夏令营的活动去掉了“全国”、“大学生”这两个词，放宽了对参赛者地域和身份的限制。大学生、研究生以及社会人士都可以参赛。大赛吸引精英人才对深圳的了解和关注，动用数学思维为深圳发展提出建议，也为促进深圳创新发展提供理论依据和解决问题的方法途径。</p>
+    <p>第一届夏令营于2001年8月8日至15日在宜昌市三峡坝区“全国大学生教学实习和社会实践基地”举行；第二届夏令营于2006年8月6日至10日在北京化工大学举行；从2011年开始全国大学生数学建模夏令营都在深圳举行。</p>
+    <p>夏令营活动不同于竞赛，其题目的规模和难度都比较大，但提供的解答时间也比较长，而且允许参赛同学自由地和老师、甚至专家一起研讨。在比较长的时间里通过刻苦钻研、团队合作、充分研究，以论文的形式表达自己的研究成果。和竞赛相比，夏令营活是志同道合的同学和老师自愿结合去研究某些实际问题。在这样的活动中，参赛同学能够进一步领会用数学建模的方法去解决实际问题的关键和难点，即：怎样做到合理的简化假设，用什么样的好的、有效的数学方法去解决建模中提出的数学和计算问题，怎样验证所得结果的合理性和正确性，特别是怎样转化自己的成果成为能够取得一定的经济或社会效益的技术。同时，同学们也能更加具体地体会到用数学建模的方法去解决实际问题的艰难性、长期性以及数学的关键作用。</p>
+    <p>在夏令营期间，将组织参加夏令营的同学们和老师们围绕相关题目进行充分的交流和讨论，并召开座谈会请大家就这些方面的问题以及怎样进一步搞好建模竞赛发表你们的意见和建议，还将邀请部分中科院或工程院院士以及国内外著名专家学者作专题讲座，使参加活动的同学'有备而来，丰收而归'。</p>
+    <h3 style="text-align: center;">所需技能</h3>
+    <p>数学</p>
+    <div class="container">
+      <div class="skills html">100%</div>
+    </div>
+
+    <p>Python</p>
+    <div class="container">
+      <div class="skills css">60%</div>
+    </div>
+      <p>优化&预测%统计</p>
+    <div class="container">
+      <div class="skills js">85%</div>
+    </div>
+
+    <p>方程&数据建模&机器学习方法</p>
+    <div class="container">
+      <div class="skills php">85%</div>
+    </div>
+    
+  </div>
+  
+  <div id="b2" class="containerTab" style="display:none;background:rgb(123, 123, 233)">
+    <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+    <h2>MathorCup数学建模挑战赛--大数据竞赛</h2>
+    <p>MathorCup高校数学建模挑战赛（以下简称“竞赛”）是由中国优选法统筹法与经济数学研究会主办的面向全日制普通高等院校在校学生的学科竞赛活动。竞赛坚持学会创始人华罗庚教授数学与行业应用实际紧密结合的思想，通过面向实际问题的数学建模竞赛活动，拓宽社会挖掘与培养优秀人才的渠道，搭建展示高校学生基础学术训练的平台，鼓励广大学生踊跃参加课外科技活动，提高学生运用理论知识解决社会实际问题的能力，在扩大学生科研视野同时，培养其创造精神及合作意识。</p>
+    <p>竞赛题目大都来源于企业实际问题，并每年举办“数学建模在企业中的应用研讨会”，邀请阿里巴巴、MathWorks、滴滴出行等资深算法专家作报告，分享数学在实际问题中的应用。</p>
+  </div>
+  
+  <div id="b3" class="containerTab" style="display:none;background:rgb(233, 101, 101)">
+    <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
+    <h2>五岳杯量子计算挑战赛</h2>
+    <p>国务院印发的《“十四五”数字经济发展规划》通知中，提出加快推动数字产业化，增强关键技术创新能力，瞄准量子信息、网络通信等战略性前瞻性领域，提高数字技术基础研发能力。</p>
+    <p>了增强高校学生的对量子计算的了解、建立量子计算思维，提升量子计算技术水平，亚太地区大学生数学建模竞赛组委会决定在“APMCM亚太地区大学生数学建模竞赛”中增加量子计算专题赛项——“五岳杯量子计算挑战赛”。竞赛由亚太地区大学生数学建模竞赛组委会负责组织。</p>
+  </div>
+  
+  <script>
+  function openTab(tabName) {
+    var i, x;
+    x = document.getElementsByClassName("containerTab");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    document.getElementById(tabName).style.display = "block";
+  }
+  </script>
+  <div class="card">
+    <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.aJ-feMIbJgpznkdg105oDQHaHa?pid=ImgDet&rs=1" alt="头像" style="width: 240px;height:240px">
+    <div class="container">
+      <h4><b>bjxb</b></h4> 
+      <p>厦门大学</p> 
+      <p style="font-size: 22px;">优化/方程/数据建模&机器学习方法</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://c-ssl.dtstatic.com/uploads/blog/202206/22/20220622155835_fc001.thumb.400_0.jpg" alt="头像" style="width: 240px;height:240px">
+    <div class="container">
+      <h4><b>3jue</b></h4> 
+      <p>常州大学</p> 
+      <p style="font-size: 22px;">预测&统计/方程/数据建模&机器学习方法</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://c-ssl.duitang.com/uploads/blog/202105/31/20210531215836_88ea0.thumb.1000_0.jpeg" alt="头像" style="width: 240px;height:240px">
+    <div class="container">
+      <h4><b>cslz</b></h4> 
+      <p>浙江理工大学</p> 
+      <p style="font-size: 22px;">图论/预测&统计/数据建模&机器学习方法</p>
+    </div>
+  </div>
+  <div class="card">
+    <img src="https://tupian.qqw21.com/article/UploadPic/2020-9/20209241950259660.jpg" alt="头像" style="width: 240px;height:240px">
+    <div class="container">
+      <h4><b>Bamboo</b></h4> 
+      <p>中山大学</p> 
+      <p style="font-size: 22px;">优化类/图论/预测&统计</p>
+    </div>
+  </div>
+</body>
+</html>
