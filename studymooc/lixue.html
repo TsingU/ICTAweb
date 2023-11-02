@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Google fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+    <!-- Icon fonts-->
+    <link rel="stylesheet" href="css/pe-icon-7-stroke.css">
+    <!-- Lightbox CSS-->
+    <link rel="stylesheet" href="vendor/lightbox2/css/lightbox.min.css">
+    <!-- Leaflet CSS-->
+    <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Favicon-->
+    <link rel="icon" href="img\ictaicon.ico" >
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+  </head>
+  <body>
+    <!-- navbar-->
+    <header class="header">
+      <nav class="navbar navbar-expand-lg py-lg-0">
+        <div class="container"><a href="stumooc.html" class="navbar-brand text-uppercase font-weight-bold">ICTA</a>
+          <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right small"><span class="text-uppercase mr-2">Menu</span><i class="fas fa-bars"></i></button>
+          <div id="navbarSupportedContent" class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto d-lg-flex align-items-lg-center">
+              <li class="nav-item"><a href="stumooc.html" class="nav-link font-weight-bold text-uppercase px-lg-3 py-lg-4">首页 </a>
+              </li>
+              <li class="nav-item"><a href="lixue.html" class="nav-link font-weight-bold text-uppercase px-lg-3 py-lg-4 active">理学课程</a>
+              </li>
+              <li class="nav-item dropdown"><a id="navbarDropdownMenuLink" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link font-weight-bold text-uppercase px-lg-3 py-lg-4 dropdown-toggle">计算机课程</a>
+                <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu mt-0"><a href="#" class="dropdown-item small text-uppercase">编程语言</a><a href="#" class="dropdown-item small text-uppercase">算法</a><a href="#" class="dropdown-item small text-uppercase">数据结构</a><a href="#" class="dropdown-item small text-uppercase">人工智能</a></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div id="loginModal" tabindex="-1" role="dialog" aria-lebelledby="loginModalLabel" aria-hidden="true" class="modal fade">
+      <div role="document" class="modal-dialog modal-sm">
+        <div class="modal-content rounded-0">
+          <div class="modal-header">
+            <h5 id="loginModalLabel" class="text-uppercase modal-title m-0">Customers login</h5>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true" class="small text-muted">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <form action="">
+              <div class="form-group">
+                <input type="email" placeholder="email" class="form-control">
+              </div>
+              <div class="form-group">
+                <input type="password" placeholder="password" class="form-control">
+              </div>
+              <div class="form-group text-center">
+                <button type="submit" class="btn btn-outline-primary nav-btn btn-sm"> <i class="fas fa-sign-out-alt mr-2"></i>Login </button>
+              </div>
+            </form>
+            <div class="text-center">   
+              <p class="text-muted small">Not registered yet?</p>
+              <p class="small text-muted"> <a href="#" class="font-weight-bold">Register now!</a> It is easy and done in 1 minute and gives you access to special discounts and much more!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="py-5 bg-cover bg-gray">
+      <div class="container py-5">
+        <div aria-label="breadcrumb" class="nav">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="./">ICTA</a></li>
+            <li aria-current="page" class="breadcrumb-item active">理学课程</li>
+          </ol>
+        </div>
+        <h1 class="lined">理学课程</h1>
+        <p class="lead my-4">通过对理学课程的学习，我们将了解浩瀚的世界，并且如何运用我们所学的知识去解释他</p>
+      </div>
+    </section>
+    <figure>
+      <figcaption class="text-muted text-center py-3 text-uppercase font-weight-bold small">To Love the World</figcaption>
+    </figure>
+    <section class="py-5">
+      <div class="container py-5">
+        <div class="row">
+          <div class="container py-5">
+            <h2 class="h3 mb-4">推荐课程</h2>
+            <div class="row">
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">数学物理方法</a></h3>
+                <p class="text-small">数学物理以研究物理问题为目标的数学理论和数学方法。它探讨物理现象的数学模型，即寻求物理现象的数学描述，并对模型已确立的物理问题研究其数学解法，然后根据解答来诠释和预见物理现象，或者根据物理事实来修正原有模型。“数理”也叫“数学物理”，是数学和物理学的交叉领域，指应用特定的数学方法来研究物理学的某些部分。对应的数学方法也叫数学物理方法。</p><a href="https://www.bilibili.com/video/BV1Ck4y1P7Gd/?spm_id_from=333.337.search-card.all.click&vd_source=1f912c46d475ee537f6678292bdc8907" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">量子力学</a></h3>
+                <p class="text-small">量子力学（Quantum Mechanics），为物理学理论，是研究物质世界微观粒子运动规律的物理学分支，主要研究原子、分子、凝聚态物质，以及原子核和基本粒子的结构、性质的基础理论。它与相对论一起构成现代物理学的理论基础。量子力学不仅是现代物理学的基础理论之一，而且在化学等学科和许多近代技术中得到广泛应用。</p><a href="https://www.bilibili.com/video/BV1yb411G7bo/?spm_id_from=333.337.search-card.all.click&vd_source=1f912c46d475ee537f6678292bdc8907" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4"><a href="#" class="d-block"><img src="img/blog3.jpg" alt="" class="img-fluid mb-4"></a>
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">微分方程</a></h3>
+                <p class="text-small">微分方程，是指含有未知函数及其导数的关系式。解微分方程就是找出未知函数。
+                  微分方程是伴随着微积分学一起发展起来的。微积分学的奠基人Newton和Leibniz的著作中都处理过与微分方程有关的问题。微分方程的应用十分广泛，可以解决许多与导数有关的问题。</p><a href="https://www.bilibili.com/video/BV1eM4y1g7De/?spm_id_from=333.337.search-card.all.click&vd_source=1f912c46d475ee537f6678292bdc8907" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="container py-5">
+            <h2 class="h3 mb-4">物理课程</h2>
+            <div class="row">
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">A</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">B</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4"><a href="#" class="d-block"><img src="img/blog3.jpg" alt="" class="img-fluid mb-4"></a>
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">C</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="container py-5">
+            <h2 class="h3 mb-4">数学课程</h2>
+            <div class="row">
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">A</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">B</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4"><a href="#" class="d-block"><img src="img/blog3.jpg" alt="" class="img-fluid mb-4"></a>
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">C</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="container py-5">
+            <h2 class="h3 mb-4">化学课程</h2>
+            <div class="row">
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">A</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">B</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4"><a href="#" class="d-block"><img src="img/blog3.jpg" alt="" class="img-fluid mb-4"></a>
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">C</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="container py-5">
+            <h2 class="h3 mb-4">生命科学课程</h2>
+            <div class="row">
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">A</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4 mb-4 mb-lg-0">
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">B</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+              <div class="col-lg-4"><a href="#" class="d-block"><img src="img/blog3.jpg" alt="" class="img-fluid mb-4"></a>
+                <h3 class="h5 mb-4"><a href="#" class="text-dark">C</a></h3>
+                <p class="text-small"></p><a href="" class="btn btn-outline-primary btn-sm">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer style="background: #eee;" class="pt-5">
+      <div class="bg-dark py-4">    
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 text-center text-lg-left mb-1 mb-lg-0">
+              <p class="small text-gray mb-0">Copyright &copy; 2023 ICTA 信息计算技术协会<a target="_blank" href="https://www.icta.cloud">ICTA</a></p>
+            </div>
+            <div class="col-lg-6 text-center text-lg-right">
+              <p class="small text-gray mb-0"></p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- JavaScript files-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/lightbox2/js/lightbox.min.js"></script>
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="js/front.js"></script>
+    <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  </body>
+</html>
