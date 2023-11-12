@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>协会公告</title>
+    <link rel="icon" href="logo/ictaicon.ico" >
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        /* 并排浮动四列 */
+        .column {
+          float: left;
+          width: 25%;
+          padding: 0 10px;
+        }
+        
+        /* 删除多余的左右边距，由于填充 */
+        .row {margin: 0 -5px;}
+        
+        /* 清除列后的浮点数 */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        
+        /* 响应列 */
+        @media screen and (max-width: 600px) {
+          .column {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+          }
+        }
+        
+        /* 设置计数器卡片的样式 */
+        .card {
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          padding: 16px;
+          text-align: center;
+          background-color: #f1f1f1;
+        }
+        </style>
+</head>
+<body>
+    <p style="text-align: center;"><img src="logo/ICTALG.png" alt=""></p>
+    <div class="row">
+        <div class="column">
+          <div class="card">
+            <h3>2023.11.12公告</h3>
+            <p>鉴于期中考试，暂停网站更新</p>
+          </div>
+        </div>
+      
+        <div class="column">
+          <div class="card">
+            <h3>2023.11.12公告</h3>
+            <p>以后的重要通知会放在协会公告上</p>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
