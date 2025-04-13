@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>现代任务管理器</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --success: #7ED321;
+            --danger: #FF4757;
+            --text: #2D3436;
+            --border: #E0E6ED;
+            --background: #F8FAFD;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+            margin: 0;
+            padding: 2rem;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .task-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            padding: 2rem;
+        }
+
+        .task-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #taskName {
+            padding: 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        #taskName:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .secondary-btn {
+            background: #F1F4F8;
+            color: var(--text);
+        }
+
+        .danger-btn {
+            background: var(--danger);
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .task-item.done {
+            background: #F8F9FA;
+            border-color: #E9ECEF;
+        }
+
+        .task-info {
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #E3F2FD;
+            color: var(--primary);
+        }
+
+        .completed-badge {
+            color: var(--danger);
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .edit-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-width: 300px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="task-panel">
+            <div class="task-form">
+                <input type="text" id="taskName" placeholder="输入新任务名称...">
+                <button class="primary-btn" onclick="addTask()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    新建任务
+                </button>
+            </div>
+
+            <div class="form-actions">
+                <button class="secondary-btn" onclick="exportTasks()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                    </svg>
+                    导出所有任务
+                </button>
+                <button class="secondary-btn" onclick="document.getElementById('fileInput').click()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    导入任务
+                </button>
+                <input type="file" id="fileInput" hidden accept=".json" onchange="importTasks(event)">
+            </div>
+
+            <div class="task-list" id="taskList"></div>
+        </div>
+    </div>
+
+    <script>
+        let tasks = [];
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        }
+
+        function addTask() {
+            const taskInput = document.getElementById('taskName');
+            const taskName = taskInput.value.trim();
+
+            if (!taskName) {
+                alert('请输入任务名称');
+                return;
+            }
+
+            const newTask = {
+                id: generateId(),
+                name: taskName,
+                progress: "未开始",
+                notes: "",
+                done: false
+            };
+
+            tasks.push(newTask);
+            taskInput.value = '';
+            renderTasks();
+        }
+
+        function showEditDialog(id) {
+            const task = tasks.find(t => t.id === id);
+            const dialog = document.createElement('div');
+            dialog.className = 'edit-dialog';
+            dialog.innerHTML = `
+                <div class="edit-form">
+                    <div class="form-group">
+                        <label>任务名称：</label>
+                        <input type="text" id="editName" value="${task.name.replace(/"/g, '&quot;')}">
+                    </div>
+                    <div class="form-group">
+                        <label>任务进度：</label>
+                        <select id="editProgress">
+                            <option value="未开始" ${task.progress === '未开始' ? 'selected' : ''}>未开始</option>
+                            <option value="25%" ${task.progress === '25%' ? 'selected' : ''}>25%</option>
+                            <option value="50%" ${task.progress === '50%' ? 'selected' : ''}>50%</option>
+                            <option value="75%" ${task.progress === '75%' ? 'selected' : ''}>75%</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>任务备注：</label>
+                        <textarea id="editNotes">${task.notes.replace(/"/g, '&quot;')}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="primary-btn" onclick="saveEdit('${id}')">保存修改</button>
+                        ${task.done ? `<button class="secondary-btn" onclick="toggleComplete('${id}')">撤回为未完成</button>` : ''}
+                        <button class="danger-btn" onclick="confirmDelete('${id}')">删除任务</button>
+                        <button class="secondary-btn" onclick="this.closest('.edit-dialog').remove()">取消</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(dialog);
+        }
+
+        function saveEdit(id) {
+            const task = tasks.find(t => t.id === id);
+            task.name = document.getElementById('editName').value.trim();
+            task.progress = document.getElementById('editProgress').value;
+            task.notes = document.getElementById('editNotes').value.trim();
+            renderTasks();
+            document.querySelector('.edit-dialog').remove();
+        }
+
+        function toggleComplete(id) {
+            const task = tasks.find(t => t.id === id);
+            task.done = !task.done;
+            renderTasks();
+            document.querySelector('.edit-dialog').remove();
+        }
+
+        function confirmDelete(id) {
+            if (confirm('确定要永久删除这个任务吗？')) {
+                tasks = tasks.filter(t => t.id !== id);
+                renderTasks();
+                // 移除所有打开的对话框
+                const dialogs = document.querySelectorAll('.edit-dialog');
+                dialogs.forEach(dialog => dialog.remove());
+            }
+        }
+
+        function completeTask(id) {
+            if (confirm('确定要标记为已完成吗？')) {
+                const task = tasks.find(t => t.id === id);
+                task.done = true;
+                renderTasks();
+            }
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('taskList');
+            container.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const taskEl = document.createElement('div');
+                taskEl.className = `task-item ${task.done ? 'done' : ''}`;
+                taskEl.innerHTML = `
+                    <div class="task-info">
+                        <div class="task-title">${task.name}</div>
+                        <div class="progress-tag">${task.progress}</div>
+                        ${task.notes ? `<div class="task-notes">${task.notes}</div>` : ''}
+                        ${task.done ? `
+                            <div class="completed-badge">
+                                <span>任务已完成</span>
+                                <span class="emoji">🎉</span>
+                            </div>` : ''}
+                    </div>
+                    <div class="task-actions">
+                        <button class="secondary-btn" onclick="showEditDialog('${task.id}')">
+                            编辑
+                        </button>
+                        ${!task.done ? `
+                        <button class="primary-btn" onclick="completeTask('${task.id}')">
+                            完成
+                        </button>` : ''}
+                    </div>
+                `;
+                container.appendChild(taskEl);
+            });
+        }
+
+        function exportTasks() {
+            const data = JSON.stringify(tasks);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tasks_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importTasks(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    tasks = JSON.parse(e.target.result);
+                    renderTasks();
+                } catch {
+                    alert('文件格式错误');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // 初始化空任务列表
+        renderTasks();
+
+        // 回车键支持
+        document.getElementById('taskName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
