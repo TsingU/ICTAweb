@@ -12,6 +12,7 @@
             --text: #2D3436;
             --border: #E0E6ED;
             --background: #F8FAFD;
+            --sidebar-width: 280px;
         }
 
         body {
@@ -23,11 +24,49 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* 新增侧边栏样式 */
+        .sidebar {
+            flex: 0 0 var(--sidebar-width);
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .sidebar-task {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .sidebar-task:hover {
+            background: var(--background);
+            transform: translateX(4px);
+        }
+
+        .sidebar-task.active {
+            border-color: var(--primary);
         }
 
         .task-panel {
+            flex: 1;
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
@@ -58,6 +97,7 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 1.5rem;
+            align-items: center;
         }
 
         button {
@@ -106,6 +146,7 @@
             border: 2px solid var(--border);
             border-radius: 8px;
             position: relative;
+            scroll-margin-top: 20px; /* 滚动定位偏移 */
         }
 
         .task-item.done {
@@ -131,6 +172,11 @@
             font-size: 0.9rem;
             background: #E3F2FD;
             color: var(--primary);
+        }
+
+        .progress-tag.completed {
+            background: #E8F5E9;
+            color: #4CAF50;
         }
 
         .completed-badge {
@@ -188,10 +234,25 @@
             border-radius: 8px;
             font-size: 1rem;
         }
+
+        .file-status {
+            margin-left: 1rem;
+            color: #666;
+            font-size: 0.9em;
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- 新增侧边栏 -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-title">🗂 任务导航</div>
+            <div id="sidebarTasks"></div>
+        </div>
+
         <div class="task-panel">
             <div class="task-form">
                 <input type="text" id="taskName" placeholder="输入新任务名称...">
@@ -208,15 +269,16 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                     </svg>
-                    导出所有任务
+                    导出任务
                 </button>
-                <button class="secondary-btn" onclick="document.getElementById('fileInput').click()">
+                <button class="secondary-btn" id="importBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
                     </svg>
                     导入任务
                 </button>
-                <input type="file" id="fileInput" hidden accept=".json" onchange="importTasks(event)">
+                <span id="fileStatus" class="file-status">未选择文件</span>
+                <input type="file" id="fileInput" hidden accept=".json">
             </div>
 
             <div class="task-list" id="taskList"></div>
@@ -225,11 +287,96 @@
 
     <script>
         let tasks = [];
+        let hasUnsavedChanges = false;
+        let currentFileHandle = null;
 
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        // 页面关闭事件处理
+        window.addEventListener('beforeunload', (e) => {
+            if (hasUnsavedChanges) {
+                e.preventDefault();
+                const confirmLeave = confirm('您有未保存的更改，是否要保存当前任务？');
+                if (confirmLeave) {
+                    exportTasks();
+                }
+                return (e.returnValue = '');
+            }
+        });
+
+        // 导入功能
+        document.getElementById('importBtn').addEventListener('click', async () => {
+            if ('showOpenFilePicker' in window) {
+                try {
+                    [currentFileHandle] = await window.showOpenFilePicker({
+                        types: [{
+                            description: '任务文件',
+                            accept: { 'application/json': ['.json'] }
+                        }]
+                    });
+                    const file = await currentFileHandle.getFile();
+                    const text = await file.text();
+                    tasks = JSON.parse(text);
+                    updateFileStatus(file.name);
+                    hasUnsavedChanges = false;
+                    renderAll();
+                } catch (error) {
+                    console.log('用户取消选择');
+                }
+            } else {
+                document.getElementById('fileInput').click();
+            }
+        });
+
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    tasks = JSON.parse(event.target.result);
+                    updateFileStatus(file.name);
+                    hasUnsavedChanges = false;
+                    renderAll();
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // 导出功能
+        async function exportTasks() {
+            try {
+                let handle;
+                const data = JSON.stringify(tasks);
+                
+                if ('showSaveFilePicker' in window) {
+                    handle = await window.showSaveFilePicker({
+                        suggestedName: `tasks_${new Date().toISOString().split('T')[0]}.json`,
+                        types: [{
+                            description: '任务文件',
+                            accept: { 'application/json': ['.json'] }
+                        }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(data);
+                    await writable.close();
+                    currentFileHandle = handle;
+                    updateFileStatus(handle.name);
+                } else {
+                    const blob = new Blob([data], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `tasks_${new Date().toISOString().split('T')[0]}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                }
+                
+                hasUnsavedChanges = false;
+                alert('保存成功！');
+            } catch (error) {
+                console.log('用户取消保存');
+            }
         }
 
+        // 任务操作函数
         function addTask() {
             const taskInput = document.getElementById('taskName');
             const taskName = taskInput.value.trim();
@@ -239,17 +386,17 @@
                 return;
             }
 
-            const newTask = {
+            tasks.push({
                 id: generateId(),
                 name: taskName,
                 progress: "未开始",
                 notes: "",
                 done: false
-            };
+            });
 
-            tasks.push(newTask);
             taskInput.value = '';
-            renderTasks();
+            hasUnsavedChanges = true;
+            renderAll();
         }
 
         function showEditDialog(id) {
@@ -269,6 +416,7 @@
                             <option value="25%" ${task.progress === '25%' ? 'selected' : ''}>25%</option>
                             <option value="50%" ${task.progress === '50%' ? 'selected' : ''}>50%</option>
                             <option value="75%" ${task.progress === '75%' ? 'selected' : ''}>75%</option>
+                            <option value="100%" ${task.progress === '100%' ? 'selected' : ''}>100%</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -291,24 +439,25 @@
             task.name = document.getElementById('editName').value.trim();
             task.progress = document.getElementById('editProgress').value;
             task.notes = document.getElementById('editNotes').value.trim();
-            renderTasks();
+            hasUnsavedChanges = true;
+            renderAll();
             document.querySelector('.edit-dialog').remove();
         }
 
         function toggleComplete(id) {
             const task = tasks.find(t => t.id === id);
             task.done = !task.done;
-            renderTasks();
+            hasUnsavedChanges = true;
+            renderAll();
             document.querySelector('.edit-dialog').remove();
         }
 
         function confirmDelete(id) {
             if (confirm('确定要永久删除这个任务吗？')) {
                 tasks = tasks.filter(t => t.id !== id);
-                renderTasks();
-                // 移除所有打开的对话框
-                const dialogs = document.querySelectorAll('.edit-dialog');
-                dialogs.forEach(dialog => dialog.remove());
+                hasUnsavedChanges = true;
+                renderAll();
+                document.querySelectorAll('.edit-dialog').forEach(dialog => dialog.remove());
             }
         }
 
@@ -316,21 +465,63 @@
             if (confirm('确定要标记为已完成吗？')) {
                 const task = tasks.find(t => t.id === id);
                 task.done = true;
-                renderTasks();
+                hasUnsavedChanges = true;
+                renderAll();
             }
         }
 
-        function renderTasks() {
+        // 辅助函数
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        }
+
+        function updateFileStatus(filename) {
+            document.getElementById('fileStatus').textContent = filename ? 
+                `当前文件: ${filename}` : '未选择文件';
+        }
+
+        // 渲染侧边栏任务列表
+        function renderSidebar() {
+            const container = document.getElementById('sidebarTasks');
+            container.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const item = document.createElement('div');
+                item.className = 'sidebar-task';
+                item.setAttribute('data-id', task.id);
+                item.innerHTML = `
+                    <div class="task-title">${task.name}</div>
+                    <div class="progress-tag ${task.progress === '100%' ? 'completed' : ''}">
+                        ${task.progress}
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    const target = document.getElementById(`task-${task.id}`);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        target.classList.add('highlight');
+                        setTimeout(() => target.classList.remove('highlight'), 1000);
+                    }
+                });
+                container.appendChild(item);
+            });
+        }
+
+        // 渲染主任务列表
+        function renderMainList() {
             const container = document.getElementById('taskList');
             container.innerHTML = '';
             
             tasks.forEach(task => {
                 const taskEl = document.createElement('div');
                 taskEl.className = `task-item ${task.done ? 'done' : ''}`;
+                taskEl.id = `task-${task.id}`;
                 taskEl.innerHTML = `
                     <div class="task-info">
                         <div class="task-title">${task.name}</div>
-                        <div class="progress-tag">${task.progress}</div>
+                        <div class="progress-tag ${task.progress === '100%' ? 'completed' : ''}">
+                            ${task.progress}
+                        </div>
                         ${task.notes ? `<div class="task-notes">${task.notes}</div>` : ''}
                         ${task.done ? `
                             <div class="completed-badge">
@@ -352,35 +543,13 @@
             });
         }
 
-        function exportTasks() {
-            const data = JSON.stringify(tasks);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `tasks_${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
+        function renderAll() {
+            renderSidebar();
+            renderMainList();
         }
 
-        function importTasks(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    tasks = JSON.parse(e.target.result);
-                    renderTasks();
-                } catch {
-                    alert('文件格式错误');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // 初始化空任务列表
-        renderTasks();
+        // 初始化
+        renderAll();
 
         // 回车键支持
         document.getElementById('taskName').addEventListener('keypress', function(e) {
